@@ -1,0 +1,10 @@
+---
+# handlers file for varnish_server
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+
+- name: Restart varnish
+  service:
+    name: varnish
+    state: restarted

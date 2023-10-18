@@ -1,0 +1,13 @@
+---
+- name: Configure Varnish servers
+  hosts: varnish
+  become: yes
+  roles:
+    - varnish_server
+
+- name: Configure Test Clients
+  hosts: client
+  become: yes
+  roles:
+    - test_client
+
