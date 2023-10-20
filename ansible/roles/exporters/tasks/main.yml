@@ -1,0 +1,52 @@
+---
+# tasks file for exporters
+
+- name: Create node_exporter directory
+  file:
+    path: "{{ node_exporter_install_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Download node_exporter tarball
+  get_url:
+    url: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
+    dest: "/tmp/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
+    mode: '0644'
+
+- name: Extract node_exporter
+  unarchive:
+    src: "/tmp/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
+    dest: "{{ node_exporter_install_dir }}"
+    remote_src: yes
+    extra_opts: [--strip-components=1]
+    creates: "{{ node_exporter_install_dir }}/node_exporter"
+
+- name: Create node_exporter service file
+  copy:
+    dest: /etc/systemd/system/node_exporter.service
+    content: |
+      [Unit]
+      Description=Node Exporter
+      Wants=network-online.target
+      After=network-online.target
+
+      [Service]
+      User=nobody
+      Group=nogroup
+      Type=simple
+      ExecStart={{ node_exporter_install_dir }}/node_exporter
+
+      [Install]
+      WantedBy=multi-user.target
+    mode: '0644'
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+
+- name: Enable and start node_exporter service
+  systemd:
+    name: node_exporter
+    state: started
+    enabled: yes
+

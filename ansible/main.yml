@@ -1,13 +1,25 @@
 ---
-- name: Configure Varnish servers
-  hosts: varnish
+- name: Basic Linux Config
+  hosts: all
   become: yes
   roles:
-    - varnish_server
+    - common
+    - exporters
 
-- name: Configure Test Clients
-  hosts: client
+- name: Basic Linux Config
+  hosts: monitor
   become: yes
   roles:
-    - test_client
+    - exporters-manager
 
+# - name: Configure Varnish servers
+#   hosts: varnish
+#   become: yes
+#   roles:
+#     - varnish_server
+# 
+# - name: Configure Test Clients
+#   hosts: client
+#   become: yes
+#   roles:
+#     - test_client

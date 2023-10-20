@@ -1,0 +1,16 @@
+---
+# defaults file for common
+
+common_packages:
+  - jq
+  - curl
+  - wget
+  - nmap
+  - iperf
+  - dstat
+  - traceroute
+  - tcpdump
+  - dnsutils  # For dig, nslookup
+  - netcat
+  - htop  # System monitoring
+  - iftop  # Network traffic monitoring

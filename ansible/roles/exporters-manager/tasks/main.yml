@@ -1,0 +1,8 @@
+---
+# tasks file for exporters-manager
+
+- name: Install prometheus
+  include_tasks: prometheus.yml
+
+- name: Install grafana
+  include_tasks: grafana.yml

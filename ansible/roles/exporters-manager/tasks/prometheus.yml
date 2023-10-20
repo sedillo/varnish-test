@@ -1,0 +1,67 @@
+---
+
+- name: Create Prometheus user
+  user:
+    name: prometheus
+    system: yes
+    shell: /bin/false
+    create_home: yes
+    home: /home/prometheus
+
+- name: Create Prometheus directory
+  file:
+    path: "{{ prometheus_install_dir }}"
+    state: directory
+    owner: prometheus
+    group: prometheus
+    mode: '0755'
+
+- name: Download Prometheus
+  get_url:
+    url: "https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
+    dest: "/tmp/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
+    mode: '0644'
+
+- name: Extract Prometheus
+  unarchive:
+    src: "/tmp/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
+    dest: "{{ prometheus_install_dir }}"
+    remote_src: yes
+    extra_opts: [--strip-components=1]
+    creates: "{{ prometheus_install_dir }}/prometheus"
+    owner: prometheus
+    group: prometheus
+
+- name: Copy Prometheus configuration
+  copy:
+    dest: "{{ prometheus_install_dir }}/prometheus.yml"
+    content: |
+      global:
+        scrape_interval: 15s
+      scrape_configs:
+        - job_name: 'node_exporter'
+          static_configs:
+          - targets: ['localhost:9100'] # Replace with the address of your Node Exporter
+    owner: prometheus
+    group: prometheus
+    mode: '0644'
+
+
+- name: Create Prometheus service file
+  template:
+    src: prometheus.service.j2
+    dest: /etc/systemd/system/prometheus.service
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+
+- name: Enable and start Prometheus service
+  systemd:
+    name: prometheus
+    state: started
+    enabled: yes
+  notify: verify prometheus

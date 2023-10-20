@@ -40,9 +40,6 @@ resource "aws_instance" "client" {
   user_data = <<-EOF
               #!/bin/bash
               sudo apt-get update
-              sudo apt-get install -y haproxy
-              # You should configure HAProxy here, or pull its configuration from a remote source.
-              sudo systemctl restart haproxy
               EOF
 }
 

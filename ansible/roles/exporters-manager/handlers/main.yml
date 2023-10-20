@@ -1,0 +1,8 @@
+---
+# handlers file for exporters-manager
+
+- name: verify prometheus
+  command: systemctl status prometheus
+  register: service_status
+  failed_when: "'active (running)' not in service_status.stdout"
+  changed_when: false

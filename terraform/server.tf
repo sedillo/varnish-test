@@ -41,9 +41,6 @@ resource "aws_instance" "varnish" {
   user_data = <<-EOF
               #!/bin/bash
               sudo apt-get update
-              sudo apt-get install -y varnish
-              # You can use `echo` or `tee` to write your Varnish configuration here, or pull it from a remote repository or S3 bucket
-              sudo systemctl restart varnish
               EOF
 }
 

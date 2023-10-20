@@ -24,6 +24,9 @@ terraform destroy
 
 ## Next steps
 - EC2 dynamic ansible inventory
-- Default role for EC2 instance configuration
 - k8s install
 - AWX install
+- Combine exporters and exporters manager role
+- Fix varnish
+- Use splunk or something else to forward logs to monitoring server
+- Demo cadvisor

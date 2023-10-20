@@ -1,0 +1,14 @@
+---
+# tasks file for common
+
+- name: Update apt repo and cache on all Debian/Ubuntu boxes
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600  # Update the cache if it's older than an hour
+
+- name: Install common network admin packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ common_packages }}"
+
