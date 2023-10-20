@@ -30,3 +30,4 @@ terraform destroy
 - Fix varnish
 - Use splunk or something else to forward logs to monitoring server
 - Demo cadvisor
+- better way to manage known hosts changing for ansible
