@@ -1,0 +1,14 @@
+---
+# tasks file for exporters-manager
+
+- name: Install prometheus
+  include_tasks: prometheus.yml
+  when: "'monitor' in group_names"
+
+- name: Install grafana
+  include_tasks: grafana.yml
+  when: "'monitor' in group_names"
+
+- name: Install node_exporter
+  include_tasks: node_exporter.yml
+  when: "'client' in group_names or 'monitor' in group_names"

@@ -1,0 +1,11 @@
+apiVersion: 1
+datasources:
+{% for host in groups['all'] %}
+  - name: Prometheus-{{ host }}
+    type: prometheus
+    access: proxy
+    orgId: 1
+    url: http://{{ hostvars[host]['ansible_default_ipv4']['address'] }}:{{ prometheus_port }}
+    isDefault: {{ loop.first }}
+{% endfor %}
+

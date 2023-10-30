@@ -6,3 +6,10 @@
   register: service_status
   failed_when: "'active (running)' not in service_status.stdout"
   changed_when: false
+
+- name: restart prometheus
+  service: name=prometheus state=restarted
+
+- name: restart grafana
+  service: name=grafana-server state=restarted
+

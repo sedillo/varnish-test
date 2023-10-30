@@ -23,11 +23,10 @@ terraform destroy
 ```
 
 ## Next steps
-- EC2 dynamic ansible inventory
 - k8s install
+- grafana dashboards
+- EC2 dynamic ansible inventory
 - AWX install
-- Combine exporters and exporters manager role
 - Fix varnish
-- Use splunk or something else to forward logs to monitoring server
 - Demo cadvisor
 - better way to manage known hosts changing for ansible

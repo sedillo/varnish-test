@@ -16,6 +16,26 @@
     update_cache: yes
     state: present
 
+- name: Ensure Grafana provisioning directories exist
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: grafana
+    group: grafana
+    mode: '0755'
+  loop:
+    - /etc/grafana/provisioning/datasources
+    - /etc/grafana/provisioning/dashboards
+
+- name: Template Prometheus data source for Grafana
+  template:
+    src: prometheus-datasource.yml.j2
+    dest: /etc/grafana/provisioning/datasources/prometheus.yml
+    owner: grafana
+    group: grafana
+    mode: '0644'
+  notify: restart grafana
+
 - name: Enable and start Grafana service
   systemd:
     name: grafana-server
