@@ -1,5 +1,11 @@
 # Terraform/Ansible Template
 
+## Environment
+
+```bash
+Make sure to install awscli and add the access and secret key
+```
+
 ## Setup
 
 ```bash
@@ -23,8 +29,11 @@ terraform destroy
 ```
 
 ## Next steps
+- Document development environment
 - k8s install
+- add [loki](https://github.com/grafana/loki)
 - grafana dashboards
+- aws private subnet
 - EC2 dynamic ansible inventory
 - AWX install
 - Fix varnish
